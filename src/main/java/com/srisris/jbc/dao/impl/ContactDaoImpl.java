@@ -5,16 +5,18 @@ import java.util.List;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.Query;
 
+import org.springframework.stereotype.Repository;
+
 import com.srisris.jbc.dao.ContactDao;
 import com.srisris.jbc.domain.Contact;
 
-
+@Repository("contactDao")
 public class ContactDaoImpl extends GenericDaoImpl<Contact> implements ContactDao {
 
 
 
   public ContactDaoImpl(Class<Contact> type) {
-    super(type);
+    super(Contact.class);
   }
 
   @SuppressWarnings("unchecked")
