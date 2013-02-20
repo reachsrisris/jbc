@@ -1,110 +1,120 @@
 package com.srisris.jbc.domain;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
+import javax.persistence.Embeddable;
 
-import com.srisris.jbc.dao.DomainObject;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 /**
  * @author schinthalapudi
  * 
  */
-@Entity
-@Table(name = "ADDRESS")
-public class Address implements DomainObject {
-	public static final int MAX_LENGTH_COUNTRY = 20;
-	public static final int MAX_LENGTH_STREET_ADDRESS = 150;
-	public static final int MAX_LENGTH_POST_CODE = 10;
-	public static final int MAX_LENGTH_POST_OFFICE = 40;
-	public static final int MAX_LENGTH_STATE = 20;
+@Embeddable
+public class Address {
 
-	@Id
-	@GeneratedValue
-	@Column(name = "ADDRESS_ID")
-	private Long id;
+    public static final int MAX_LENGTH_COUNTRY = 20;
+    public static final int MAX_LENGTH_STREET_ADDRESS = 150;
+    public static final int MAX_LENGTH_POST_CODE = 10;
+    public static final int MAX_LENGTH_POST_OFFICE = 40;
+    public static final int MAX_LENGTH_STATE = 20;
 
-	@Column(name = "country", length = MAX_LENGTH_COUNTRY)
-	private String country;
+    @Column(name = "country", length = MAX_LENGTH_COUNTRY)
+    private String country;
 
-	@Column(name = "street_address", length = MAX_LENGTH_STREET_ADDRESS)
-	private String streetAddress;
+    @Column(name = "street_address", length = MAX_LENGTH_STREET_ADDRESS)
+    private String streetAddress;
 
-	@Column(name = "post_code", length = MAX_LENGTH_POST_CODE)
-	private String postCode;
+    @Column(name = "post_code", length = MAX_LENGTH_POST_CODE)
+    private String postCode;
 
-	@Column(name = "post_office", length = MAX_LENGTH_POST_OFFICE)
-	private String postOffice;
+    @Column(name = "post_office", length = MAX_LENGTH_POST_OFFICE)
+    private String postOffice;
 
-	@Column(name = "state", length = MAX_LENGTH_STATE)
-	private String state;
-	
-	@ManyToMany(mappedBy="addresses")
-    private Set<Contact> contacts = new HashSet<Contact>();
-   
+    @Column(name = "state", length = MAX_LENGTH_STATE)
+    private String state;
 
-	public final String getCountry() {
-		return country;
-	}
+    public Address() {
 
-	public final void setCountry(String country) {
-		this.country = country;
-	}
+    }
 
-	public final String getStreetAddress() {
-		return streetAddress;
-	}
+    /**
+     * Gets a Builder used to build Address instances.
+     * @param streetAddress The street address
+     * @param postCode  The post code
+     * @param postOffice    The post office
+     * @return  A new Builder instance.
+     */
+    public static Builder getBuilder(String streetAddress, String postCode, String postOffice) {
+        return new Builder(streetAddress, postCode, postOffice);
+    }
 
-	public final void setStreetAddress(String streetAddress) {
-		this.streetAddress = streetAddress;
-	}
+    public String getCountry() {
+        return country;
+    }
 
-	public final String getPostCode() {
-		return postCode;
-	}
+    public String getStreetAddress() {
+        return streetAddress;
+    }
 
-	public final void setPostCode(String postCode) {
-		this.postCode = postCode;
-	}
+    public String getPostCode() {
+        return postCode;
+    }
 
-	public final String getPostOffice() {
-		return postOffice;
-	}
+    public String getPostOffice() {
+        return postOffice;
+    }
 
-	public final void setPostOffice(String postOffice) {
-		this.postOffice = postOffice;
-	}
+    public String getState() {
+        return state;
+    }
 
-	public final String getState() {
-		return state;
-	}
+    /**
+     * Updates the address information.
+     * @param streetAddress New street address
+     * @param postCode      New post code
+     * @param postOffice    New post office
+     * @param state         New state
+     * @param country       New country
+     */
+    public void update(final String streetAddress, final String postCode, final String postOffice, final String state, final String country) {
+        this.streetAddress = streetAddress;
+        this.postCode = postCode;
+        this.postOffice = postOffice;
+        this.state = state;
+        this.country = country;
+    }
 
-	public final void setState(String state) {
-		this.state = state;
-	}
+    /**
+     * A builder class used to build Address instances.
+     */
+    public static class Builder {
 
-	public final Long getId() {
-		return id;
-	}
+        private Address built;
 
-	public final void setId(Long id) {
-		this.id = id;
-	}
+        public Builder(String streetAddress, String postCode, String postOffice) {
+            built = new Address();
+            built.streetAddress = streetAddress;
+            built.postCode = postCode;
+            built.postOffice = postOffice;
+        }
 
-	public final Set<Contact> getContacts() {
-		return contacts;
-	}
+        public Builder country(String country) {
+            built.country = country;
+            return this;
+        }
 
-	public final void setContacts(Set<Contact> contacts) {
-		this.contacts = contacts;
-	}
-	
-	
+        public Builder state(String state) {
+            built.state = state;
+            return this;
+        }
 
+        public Address build() {
+            return built;
+        }
+    }
+
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this);
+    }
 }

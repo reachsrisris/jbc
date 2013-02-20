@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.srisris.jbc.domain.Contact;
 
-public interface ContactDao extends GenericDao<Contact> {
+public interface ContactDao{// extends GenericDao<Contact> {
 
 
   List<Contact> findByFirstName(String firstName);
