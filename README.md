@@ -1,4 +1,7 @@
-jbc
+jbc - Java based Configuration
 ===
 
-Example to learn Java based configuration
+	- to learn Java based configuration
+	- to learn JPA2
+	- to learn Spring3 with annotations
+	
