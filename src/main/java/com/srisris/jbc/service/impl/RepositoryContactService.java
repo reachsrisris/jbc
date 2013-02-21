@@ -17,82 +17,79 @@ import com.srisris.jbc.service.ContactService;
 @Service
 public class RepositoryContactService implements ContactService {
 
-	private static final Logger LOGGER = LoggerFactory
-			.getLogger(RepositoryContactService.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(RepositoryContactService.class);
 
-	@Resource
-	private ContactRepository repository;
+  @Resource
+  private ContactRepository repository;
 
-	@Transactional
-	@Override
-	public Contact add(ContactDTO added) {
-		LOGGER.debug("Adding new contact with information: {}", added);
+  @Transactional
+  @Override
+  public Contact add(ContactDTO added) {
+    LOGGER.debug("Adding new contact with information: {}", added);
 
-		// Creates an instance of a Contact by using the builder pattern
-		Contact contact = Contact
-				.getBuilder(added.getFirstName(), added.getLastName())
-				.address(added.getStreetAddress(), added.getPostCode(),
-						added.getPostOffice(), added.getState(),
-						added.getCountry())
-				.emailAddress(added.getEmailAddress())
-				.phoneNumber(added.getPhoneNumber()).build();
+    // Creates an instance of a Contact by using the builder pattern
+    Contact contact =
+        Contact
+            .getBuilder(added.getFirstName(), added.getLastName())
+            .address(added.getStreetAddress(), added.getPostCode(), added.getPostOffice(),
+                added.getState(), added.getCountry()).emailAddress(added.getEmailAddress())
+            .phoneNumber(added.getPhoneNumber()).build();
 
-		return repository.save(contact);
-	}
+    return repository.save(contact);
+  }
 
-	@Transactional(rollbackFor = Exception.class)
-	@Override
-	public Contact deletedById(Long id) throws Exception {
-		LOGGER.debug("Deleting contact by id: {}", id);
+  @Transactional(rollbackFor = Exception.class)
+  @Override
+  public Contact deletedById(Long id) throws Exception {
+    LOGGER.debug("Deleting contact by id: {}", id);
 
-		Contact deleted = findById(id);
-		repository.delete(deleted);
+    Contact deleted = findById(id);
+    repository.delete(deleted);
 
-		LOGGER.debug("Deleted contact: {}", deleted);
+    LOGGER.debug("Deleted contact: {}", deleted);
 
-		return deleted;
-	}
+    return deleted;
+  }
 
-	@Transactional(readOnly = true)
-	@Override
-	public List<Contact> findAll() {
-		LOGGER.debug("Finding all contacts");
-		return repository.findAll();
-	}
+  @Transactional(readOnly = true)
+  @Override
+  public List<Contact> findAll() {
+    LOGGER.debug("Finding all contacts");
+    return repository.findAll();
+  }
 
-	@Transactional(readOnly = true)
-	@Override
-	public Contact findById(Long id) throws Exception {
-		LOGGER.debug("Finding contact by id: {}", id);
+  @Transactional(readOnly = true)
+  @Override
+  public Contact findById(Long id) throws Exception {
+    LOGGER.debug("Finding contact by id: {}", id);
 
-		Contact found = repository.findOne(id);
+    Contact found = repository.findOne(id);
 
-		if (found == null) {
-			LOGGER.debug("No contact found with id: {}", id);
-			throw new Exception("No contact found with id: " + id);
-		}
+    if (found == null) {
+      LOGGER.debug("No contact found with id: {}", id);
+      throw new Exception("No contact found with id: " + id);
+    }
 
-		LOGGER.debug("Found contact: {}", found);
+    LOGGER.debug("Found contact: {}", found);
 
-		return found;
-	}
+    return found;
+  }
 
-	@Transactional(rollbackFor = Exception.class)
-	@Override
-	public Contact update(ContactDTO updated) throws Exception {
-		LOGGER.debug("Updating contact with information: {}", updated);
+  @Transactional(rollbackFor = Exception.class)
+  @Override
+  public Contact update(ContactDTO updated) throws Exception {
+    LOGGER.debug("Updating contact with information: {}", updated);
 
-		Contact found = findById(updated.getId());
+    Contact found = findById(updated.getId());
 
-		// Update the contact information
-		found.update(updated.getFirstName(), updated.getLastName(),
-				updated.getEmailAddress(), updated.getPhoneNumber());
-		// Update the address information
-		found.updateAddress(updated.getStreetAddress(), updated.getPostCode(),
-				updated.getPostOffice(), updated.getState(),
-				updated.getCountry());
+    // Update the contact information
+    found.update(updated.getFirstName(), updated.getLastName(), updated.getEmailAddress(),
+        updated.getPhoneNumber());
+    // Update the address information
+    found.updateAddress(updated.getStreetAddress(), updated.getPostCode(), updated.getPostOffice(),
+        updated.getState(), updated.getCountry());
 
-		return found;
-	}
+    return repository.saveAndFlush(found);
+  }
 
 }
