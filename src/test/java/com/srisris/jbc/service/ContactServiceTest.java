@@ -7,8 +7,10 @@ import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.srisris.jbc.conf.JbcTestApplicationContext;
 import com.srisris.jbc.domain.Contact;
@@ -41,14 +43,16 @@ public class ContactServiceTest {
   }
 
   @Test
+  @Transactional
+  @Rollback(false)
   public void testUpdate() throws Exception {
     ContactDTO contactDTO = new ContactDTO();
-    contactDTO.setId(new Long(1));
+    contactDTO.setId(new Long(3));
     contactDTO.setFirstName("John");
-    contactDTO.setLastName("lastName");
-    contactDTO.setEmailAddress("emailAddress1@gmail.com");
+    contactDTO.setLastName("Doe");
+    contactDTO.setEmailAddress("john.doe@gmail.com");
     contactDTO.setPhoneNumber("1234567890");
-    contactDTO.setStreetAddress("11630 Charter");
+    contactDTO.setStreetAddress("11631 Charter");
     contactDTO.setState("VA");
     contactDTO.setCountry("USA");
     contactDTO.setPostCode("20190");

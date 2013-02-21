@@ -20,7 +20,7 @@ import com.jolbox.bonecp.BoneCPDataSource;
 @Configuration
 @EnableJpaRepositories("com.srisris.jbc.repository")
 //@ComponentScan(basePackages = {"com.srisris.jbc.dao.impl","com.srisris.jbc.service"})
-@ComponentScan(basePackages = {"com.srisris.jbc.service.impl"})
+@ComponentScan(basePackages = {"com.srisris.jbc.service"})
 @PropertySource("classpath:application.properties")
 public class JbcTestApplicationContext {
 

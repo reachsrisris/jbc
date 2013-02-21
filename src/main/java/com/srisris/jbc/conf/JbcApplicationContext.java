@@ -36,7 +36,7 @@ import com.jolbox.bonecp.BoneCPDataSource;
  */
 @EnableJpaRepositories("com.srisris.jbc.repository")
 @Configuration
-@ComponentScan(basePackages = {"com.srisris.jbc.domain","com.srisris.jbc.service","com.srisris.jbc.service.impl"})
+@ComponentScan(basePackages = {"com.srisris.jbc.domain","com.srisris.jbc.service"})
 @EnableWebMvc
 @PropertySource("classpath:application.properties")
 public class JbcApplicationContext extends WebMvcConfigurerAdapter {

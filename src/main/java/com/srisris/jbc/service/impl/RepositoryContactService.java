@@ -89,7 +89,7 @@ public class RepositoryContactService implements ContactService {
     found.updateAddress(updated.getStreetAddress(), updated.getPostCode(), updated.getPostOffice(),
         updated.getState(), updated.getCountry());
 
-    return repository.saveAndFlush(found);
+    return found;//repository.saveAndFlush(found);
   }
 
 }
